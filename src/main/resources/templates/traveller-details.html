@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Bus Booking</title>
+  <style>
+     body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f2f6ff;
+            margin: 0;
+            padding: 0px;
+        }
+    .navbar {
+           background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: #fff;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 75px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .navbar .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        .navbar .nav-links a, .navbar .nav-links form {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 8px 18px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            background: none;
+            border: none;
+            display: inline-block;
+        }
+        .navbar .nav-links a:hover, .navbar .nav-links form button:hover {
+            background: #4e54c8;
+            cursor: pointer;
+        }
+        .navbar .nav-links form {
+            margin: 0;
+            padding: 0;
+            display: inline;
+        }
+        .navbar .nav-links form button {
+            background: none;
+            color: #fff;
+            border: none;
+            font-size: 1rem;
+            padding: 8px 18px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+    .booking-container {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 420px;
+      position: relative;
+      left: 35%;
+      top: 50px;
+    }
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    p {
+      margin: 5px 0;
+      color: #555;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .passenger {
+      background: #f9f9f9;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+     button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #007bff, #00c6ff);
+      color: white;
+      font-weight: bold;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,123,255,0.4);
+    }
+    .note {
+      font-size: 13px;
+      color: #666;
+      text-align: center;
+      margin-top: 15px;
+    }
+    .passenger {
+      border: 1px solid #e0e0e0;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    .passenger h3 {
+      margin-top: 0;
+      color: #007bff;
+      font-size: 18px;
+    }
+    label[for="passengers"] {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+select#passengers {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23464646' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    transition: all 0.3s ease;
+}
+
+select#passengers:hover {
+    border-color: #007bff;
+}
+
+select#passengers:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+}
+
+select#passengers option {
+    padding: 12px;
+    font-size: 15px;
+    background-color: #fff;
+    color: #333;
+}
+
+select#passengers option:first-child {
+    color: #666;
+    font-style: italic;
+}
+/* Gender Select Styling */
+label[for^="gender"] {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+select[id^="gender"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23464646' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+select[id^="gender"]:hover {
+    border-color: #007bff;
+}
+
+select[id^="gender"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+}
+
+select[id^="gender"] option {
+    padding: 12px;
+    font-size: 15px;
+    background-color: #fff;
+    color: #333;
+}
+
+select[id^="gender"] option:first-child {
+    color: #666;
+    font-style: italic;
+}
+/* Popup overlay background */
+.modal-overlay {
+  display: none; 
+  position: fixed; 
+  top: 0; left: 0; 
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6); 
+  z-index: 999; 
+  justify-content: center; 
+  align-items: center;
+}
+
+/* Popup box */
+.modal-box {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  width: 350px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease-in-out;
+}
+/* Overlay background */
+.modal-overlay {
+  display: none; 
+  position: fixed; 
+  top: 0; left: 0; 
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7); 
+  z-index: 999; 
+  justify-content: center; 
+  align-items: center;
+  backdrop-filter: blur(5px);
+}
+
+/* Common modal box */
+.modal-box {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  width: 380px;
+  max-width: 90%;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  animation: slideDown 0.3s ease;
+}
+
+/* Title */
+.modal-title {
+  font-size: 22px;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+/* Amount text */
+.amount-text {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+/* QR Section */
+.qr-container {
+  background: #f8faff;
+  padding: 15px;
+  border-radius: 12px;
+  margin: 15px 0;
+  border: 2px dashed #007bff;
+}
+.qr-container img {
+  width: 200px;
+  height: 200px;
+}
+.scan-text {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Loader animation */
+.loader {
+  margin: 15px auto;
+  border: 5px solid #eee;
+  border-top: 5px solid #007bff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+.waiting-text {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+}
+
+/* Success Box */
+.success-box {
+  background: #f8fff8;
+  border: 2px solid #28a745;
+}
+.checkmark {
+  font-size: 50px;
+  color: #28a745;
+  margin-bottom: 10px;
+  animation: pop 0.4s ease;
+}
+@keyframes pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.success-title {
+  color: #28a745;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+.continue-btn {
+  background: #28a745;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: 0.2s;
+}
+.continue-btn:hover {
+  background: #218838;
+}
+
+/* Animation */
+@keyframes slideDown {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+        <div class="logo"><img style="position: relative;  top:8px; left: 20px;" height="120px" width="200px" src="/img/gobus.png" alt=""></div>
+        <div class="nav-links">
+            <a href="/user/home">Home</a>
+            <a href="#">Bookings</a>
+            <a href="/contact">Contact</a>
+            <!-- <a href="#">Hi👋-<span th:text="${username}">username</span>!</a> -->
+            <form action="/logout" method="post" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+    
+  <div class="booking-container">
+    <h2>Booking for [[${bus.busName}]]</h2>
+    <p>Route: [[${bus.boardingPoint}]] → [[${bus.dropPoint}]]</p>
+    <p>Date: [[${bus.date}]]</p>
+    
+
+
+    <form id="bookingForm" action="/confirmBooking" method="post">
+      <!-- Hidden fields so bus info is submitted -->
+      <input type="hidden" name="busName" th:value="${bus.busName}">
+      <input type="hidden" name="boardingPoint" th:value="${bus.boardingPoint}">
+      <input type="hidden" name="dropPoint" th:value="${bus.dropPoint}">
+      <input type="hidden" name="date" th:value="${bus.date}">
+     <input type="hidden" name="userid" th:value="${user}" > 
+
+      
+
+      <label>Email:</label>
+      <input type="email" name="email" required>
+     
+
+      <label>Phone:</label>
+      <input type="text" name="phone" required>
+
+      <label for="passengers">Number of Passengers</label>
+      <select id="passengers" name="passengers" required onchange="generatePassengers()">
+        <option value="">--Select--</option>
+        <option value="1">1 Passenger</option>
+        <option value="2">2 Passengers</option>
+        <option value="3">3 Passengers</option>
+        <option value="4">4 Passengers</option>
+        <option value="5">5 Passengers</option>
+      </select>
+
+      <div id="passengerDetails"> </div>
+
+    <div id="cart" style="margin-top:20px; padding:15px; border:1px solid #ddd; border-radius:10px; background:#f9f9f9; display:none;">
+  <h3 style="color:#007bff;">Your Cart</h3>
+  <p>Bus: <strong>[[${bus.busName}]]</strong></p>
+  <p>Route: [[${bus.boardingPoint}]] → [[${bus.dropPoint}]]</p>
+  <p>Fare per passenger: ₹<span id="fare" th:text="${bus.price}"></span></p>
+  <p>Passengers: <span id="cartPassengers">0</span></p>
+  <h3>Total: ₹<span id="totalPrice">0</span></h3>
+</div>
+
+      <!-- <button type="submit">Confirm Booking</button> -->
+      <button type="button" onclick="showPaymentScreen()">Confirm Booking</button>
+
+    </form>
+  </div>
+  <!-- Payment Popup -->
+<div id="paymentModal" class="modal-overlay">
+  <div class="modal-box payment-box">
+    <h3 class="modal-title">💳 GoBus Secure Payment</h3>
+    <p class="amount-text">Pay <strong>₹<span id="payAmount"></span></strong> using UPI QR</p>
+
+    <div class="qr-container">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=GoBusPayment"
+           alt="QR Code">
+      <p class="scan-text">📱 Scan the QR Code to Pay</p>
+    </div>
+
+    <div class="loader"></div>
+    <p class="waiting-text">Waiting for payment confirmation...</p>
+  </div>
+</div>
+
+<!-- Success Popup -->
+<div id="successModal" class="modal-overlay">
+  <div class="modal-box success-box">
+    <div class="checkmark">✔</div>
+    <h3 class="success-title">Payment Successful</h3>
+    <p>GoBus Reference ID: <strong id="refId"></strong></p>
+    <button type="button" onclick="finalSubmit()" class="continue-btn">Continue</button>
+  </div>
+</div>
+
+  
+<script>
+   function generatePassengers() {
+  let count = document.getElementById("passengers").value;
+  let container = document.getElementById("passengerDetails");
+  container.innerHTML = ""; // clear before regenerating
+
+  let fare = parseFloat(document.getElementById("fare").innerText); // bus price
+  let total = 0; 
+  
+  if (count) {
+  for (let i = 1; i <= count; i++) {
+    let div = document.createElement("div");
+    div.classList.add("passenger");
+    div.innerHTML = `
+      <h3>Passenger ${i}</h3>
+      <label for="name${i}">Full Name</label>
+      <input type="text" id="name${i}" name="passengerNames" placeholder="Enter name" required>
+
+      <label for="age${i}">Age</label>
+      <input type="number" id="age${i}" name="ages" placeholder="Enter age" required>
+
+      <label for="gender${i}">Gender</label>
+      <select id="gender${i}" name="genders" required>
+        <option value="">--Select--</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+    `;
+    container.appendChild(div);
+  }
+  // Update cart
+    document.getElementById("cart").style.display = "block";
+    document.getElementById("cartPassengers").innerText = count;
+    total = fare * count;
+    document.getElementById("totalPrice").innerText = total;
+  } else {
+    document.getElementById("cart").style.display = "none";
+  }
+}
+
+
+  </script>
+<script>
+function showPaymentScreen() {
+    let total = document.getElementById("totalPrice").innerText;
+
+    if(total == "0" || total === ""){
+        alert("Please select passengers before confirming.");
+        return;
+    }
+
+    // Show payment popup
+    document.getElementById("payAmount").innerText = total;
+    document.getElementById("paymentModal").style.display = "flex";
+
+    // After 2 seconds → close payment and show success
+    setTimeout(() => {
+        document.getElementById("paymentModal").style.display = "none";
+        document.getElementById("successModal").style.display = "flex";
+
+        // Generate random reference ID
+        let ref = "GOBUS" + Math.floor(Math.random() * 1000000);
+        document.getElementById("refId").innerText = ref;
+    }, 4000);
+}
+
+// function finalSubmit() {
+//     document.getElementById("successModal").style.display = "none";
+//     document.querySelector("form").submit();
+    
+// }
+function finalSubmit() {
+    document.getElementById("successModal").style.display = "none";
+    document.getElementById("bookingForm").submit();
+}
+
+</script>
+
+</body>
+</html>

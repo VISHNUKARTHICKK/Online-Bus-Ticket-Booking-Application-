@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GoBus - Admin Dashboard</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+    <style>
+         .popup {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            /* background: #f30aff;
+            color: #fff; */
+            padding: 18px 36px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(44, 130, 201, 0.18);
+            font-size: 1.2em;
+            z-index: 9999;
+            animation: fadeout 2.5s forwards;
+        }
+        @keyframes fadeout {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f7f7f7;
+        }
+        .navbar {
+           background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: #fff;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 75px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .navbar .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        .navbar .nav-links a, .navbar .nav-links form {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 8px 18px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            background: none;
+            border: none;
+            display: inline-block;
+        }
+        .navbar .nav-links a:hover, .navbar .nav-links form button:hover {
+            background: #4e54c8;
+            cursor: pointer;
+        }
+        .navbar .nav-links form {
+            margin: 0;
+            padding: 0;
+            display: inline;
+        }
+        .navbar .nav-links form button {
+            background: none;
+            color: #fff;
+            border: none;
+            font-size: 1rem;
+            padding: 8px 18px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .admin-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 40px auto 0 auto;
+            max-width: 600px;
+            gap: 32px;
+        }
+        .admin-actions .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 32px 28px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .admin-actions .card h2 {
+            color: #4e54c8;
+            margin-bottom: 18px;
+        }
+        .admin-actions .card form,
+        .admin-actions .card .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        .admin-actions .card input, .admin-actions .card button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .admin-actions .card input {
+            background: #f1f1f1;
+            width: 80%;
+        }
+        .admin-actions .card button {
+            background: #4e54c8;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            width: 60%;
+        }
+        .admin-actions .card button:hover {
+            background: #272d9f;
+        }
+        .admin-actions .card .btn-group {
+            flex-direction: row;
+            gap: 16px;
+        }
+        @media (max-width: 700px) {
+            .navbar {
+                flex-direction: column;
+                height: auto;
+                padding: 16px;
+            }
+            .admin-actions {
+                max-width: 98vw;
+                gap: 18px;
+            }
+            .admin-actions .card {
+                padding: 18px 6vw;
+            }
+        }
+         #items {
+      margin-top: 120px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .card {
+      width: 250px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+    }
+    .card img {
+      height: 180px;
+      object-fit: cover;
+    }
+    .card button {
+      width: 100%;
+      border-radius: 0;
+      background-color: #4e54c8;
+      color: white;
+      font-size: 1rem;
+      padding: 12px;
+      border: none;
+      transition: 0.2s;
+    }
+    .card button:hover {
+      background-color: #3b3fa3;
+    }
+       .popup {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #22ff00;
+            color: #fff;
+            padding: 18px 36px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(44, 130, 201, 0.18);
+            font-size: 1.2em;
+            z-index: 9999;
+            animation: fadeout 2.5s forwards;
+        }
+        .footer {
+                   background: #4e54c8;
+                     color: white;
+                      text-align: center;
+                      padding: 16px;
+                      font-size: 0.95rem;
+                      position: relative;
+                      top: 300px;
+}
+        @keyframes fadeout {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="popup" id="messageDiv" th:if="${session.pass!=null || session.fail!=null}">
+                <h2 style="color: rgb(255, 255, 255);" th:text="${session.pass}"></h2>
+                <h2 style="color: red;" th:text="${session.fail}"></h2>
+                <span th:text="${@messageRemover.remove()}"></span>
+</div>
+
+    <nav class="navbar">
+<div class="logo"><img style="position: relative;   left: 20px;" height="80px" width="200px" src="/img/gobus.png" alt=""></div>        <div class="nav-links">
+            <a href="#">Home</a>
+
+             <a href="#">Hi👋-<span th:text="${username}">username</span>!</a>
+            <form action="/logout" method="post" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    
+    <div id="bus" align="center"> 
+    <div id="items">
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/69/69881.png" height="80%" width="80%" style="padding: 20px; position: relative;left: 25px; " alt="Bus">
+        <a href="/admin/addbus"><button>Add Bus Details</button></a>
+      </div>
+      <div class="card" >
+        <img src="https://cdn-icons-png.flaticon.com/512/747/747310.png" height="80%" width="80%" style="padding: 20px; position: relative;left: 25px; " alt="View Bus">
+        <a href="/admin/viewbus"><button>View Bus</button></a>
+      </div>
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/3082/3082383.png" height="200px" width="200px" style="padding: 20px; position: relative;left: 25px; " alt="Booking">
+        <a href="/admin/booking"><button>Booking Details</button></a>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+  &copy; 2025 GoBus. All rights reserved.
+</footer>
+    <script>
+        // Hide popup after 2.5 seconds
+        setTimeout(function() {
+            document.getElementById('adminPopup').style.display = 'none';
+        }, 2500);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
+</body>
+</html>

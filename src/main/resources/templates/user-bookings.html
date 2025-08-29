@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings - GoBus</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: #fff;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .navbar .logo img {
+            height: 60px;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .navbar .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .navbar .nav-links a:hover {
+            background: #4e54c8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .bookings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .bookings-header h1 {
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .booking-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .booking-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .booking-card h3 {
+            color: #4e54c8;
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+        }
+
+        .booking-info {
+            margin-bottom: 15px;
+        }
+
+        .booking-info p {
+            margin: 8px 0;
+            color: #444;
+        }
+
+        .booking-info strong {
+            color: #2c3e50;
+        }
+
+        .passengers-list {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .passengers-list h4 {
+            color: #2c3e50;
+            margin: 0 0 10px 0;
+        }
+
+        .passengers-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .passengers-list li {
+            padding: 5px 0;
+            color: #555;
+        }
+
+        .booking-actions {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background: #4e54c8;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #2c3e50;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .no-bookings {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .booking-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/img/gobus.png" alt="GoBus Logo">
+        </div>
+        <div class="nav-links">
+            <a href="/user/home">Home</a>
+            <a href="/user/bookings">My Bookings</a>
+            <a href="/user/contact">Contact</a>
+            <form action="/logout" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-secondary">Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="bookings-header">
+            <h1>My Bookings</h1>
+        </div>
+
+        <div class="booking-cards" th:if="${not #lists.isEmpty(bookings)}">
+            <div class="booking-card" th:each="booking : ${bookings}">
+                <h3 th:text="${booking.busName}">Bus Name</h3>
+                
+                <div class="booking-info">
+                    <p>
+                        <strong>From:</strong> 
+                        <span th:text="${booking.boardingPoint}">Boarding Point</span>
+                    </p>
+                    <p>
+                        <strong>To:</strong> 
+                        <span th:text="${booking.dropPoint}">Drop Point</span>
+                    </p>
+                    <p>
+                        <strong>Date:</strong> 
+                        <span th:text="${booking.date}">Travel Date</span>
+                    </p>
+                    <p>
+                        <strong>Booking ID:</strong> 
+                        <span th:text="${booking.id}">Booking ID</span>
+                    </p>
+                </div>
+
+                <div class="passengers-list">
+                    <h4>Passengers</h4>
+                    <ul>
+                        <li th:each="passenger : ${booking.passengerList}">
+                            <span th:text="${passenger.name} + ' (' + ${passenger.age} + ' years, ' + ${passenger.gender} + ')'">
+                                Passenger Name
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="booking-actions">
+                    <a href="#" class="btn btn-primary">View Ticket</a>
+                    <!-- <button class="btn btn-secondary" onclick="cancelBooking(${booking.id})">Cancel Booking</button> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="no-bookings" th:if="${#lists.isEmpty(bookings)}">
+            <h2>No bookings found</h2>
+            <p>You haven't made any bookings yet.</p>
+            <a href="/user/home" class="btn btn-primary">Book a Bus</a>
+        </div>
+    </div>
+
+    <script>
+        function cancelBooking(bookingId) {
+            if(confirm('Are you sure you want to cancel this booking?')) {
+                window.location.href = `/booking/cancel/${bookingId}`;
+            }
+        }
+    </script>
+</body>
+</html>

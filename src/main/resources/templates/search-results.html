@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bus Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f2f6ff;
+            margin: 0;
+            padding: 0px;
+        }
+         .navbar {
+           background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: #fff;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 75px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .navbar .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        .navbar .nav-links a, .navbar .nav-links form {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 8px 18px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            background: none;
+            border: none;
+            display: inline-block;
+        }
+        .navbar .nav-links a:hover, .navbar .nav-links form button:hover {
+            background: #4e54c8;
+            cursor: pointer;
+        }
+        .navbar .nav-links form {
+            margin: 0;
+            padding: 0;
+            display: inline;
+        }
+        .navbar .nav-links form button {
+            background: none;
+            color: #fff;
+            border: none;
+            font-size: 1rem;
+            padding: 8px 18px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .bus-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease;
+        }
+
+        .bus-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .bus-info {
+            flex: 3;
+        }
+
+        .bus-info h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #2c3e50;
+        }
+
+        .bus-meta {
+            margin: 5px 0;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .bus-time {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .bus-price {
+            flex: 1;
+            text-align: right;
+        }
+
+        .bus-price h3 {
+            color: #27ae60;
+            margin: 0 0 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #4e54c8;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #8f94fb;
+        }
+
+        .seats-left {
+            font-size: 13px;
+            color: #27ae60;
+        }
+
+        .no-seats {
+            color: red;
+            font-size: 13px;
+        }
+
+        .back-btn {
+            display: block;
+            margin: 30px auto;
+            text-align: center;
+            width: fit-content;
+            padding: 10px 20px;
+            background: #2980b9;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+        <div class="logo"><img style="position: relative;  top:8px; left: 20px;" height="120px" width="200px" src="/img/gobus.png" alt=""></div>
+        <div class="nav-links">
+            <a href="/user/home">Home</a>
+            <a href="#">Bookings</a>
+            <a href="/contact">Contact</a>
+            <!-- <a href="#">Hi👋-<span th:text="${username}">username</span>!</a> -->
+            <form action="/logout" method="post" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+    <h1>Available Bus Details</h1>
+
+    <div th:each="bus : ${busList}" class="bus-card">
+        <div class="bus-info">
+            <h2 th:text="${bus.busName}"></h2>
+            <p class="bus-meta">
+                <span th:text="${bus.coach}"></span> | 
+                Boarding: <span th:text="${bus.boardingPoint}"></span> | 
+                Drop: <span th:text="${bus.dropPoint}"></span>
+            </p>
+            <div class="bus-time">
+                
+                <span>Arrival: 7:00PM</span>
+            </div>
+        </div>
+
+        <div class="bus-price">
+            <h3>₹ <span th:text="${bus.price}"></span></h3>
+            <a th:if="${bus.seats > 0}" th:href="'/book/'+${bus.id}" class="btn">Book</a>
+             <!-- <a th:href="@{'/book/' + ${bus.id} + '/' + ${bus.seats}}">Book</a> -->
+            <p th:if="${bus.seats > 0}" class="seats-left"><span th:text="${bus.seats}"></span> Seats Left</p>
+            <p th:if="${bus.seats == 0}" class="no-seats">No Seats Left</p>
+        </div>
+    </div>
+
+    <a href="/user/home" class="back-btn">Back to Home</a>
+
+</body>
+</html>

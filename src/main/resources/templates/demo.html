@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Traveler Details</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 35px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      width: 540px;
+      animation: fadeIn 0.8s ease-in-out;
+      border-top: 6px solid #007bff;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #007bff;
+      font-size: 26px;
+      font-weight: bold;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin: 12px 0 6px;
+      color: #333;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+    input:focus, select:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 8px rgba(0,123,255,0.4);
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #007bff, #00c6ff);
+      color: white;
+      font-weight: bold;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,123,255,0.4);
+    }
+    .note {
+      font-size: 13px;
+      color: #666;
+      text-align: center;
+      margin-top: 15px;
+    }
+    .passenger {
+      border: 1px solid #e0e0e0;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    .passenger h3 {
+      margin-top: 0;
+      color: #007bff;
+      font-size: 18px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Traveler Details</h2>
+    <form action="/confirmBooking" method="post">
+
+      <label for="passengers">Number of Passengers</label>
+      <select id="passengers" name="passengers" required onchange="generatePassengers()">
+        <option value="">--Select--</option>
+        <option value="1">1 Passenger</option>
+        <option value="2">2 Passengers</option>
+        <option value="3">3 Passengers</option>
+        <option value="4">4 Passengers</option>
+        <option value="5">5 Passengers</option>
+      </select>
+
+      <div id="passengerDetails"></div>
+
+      <label for="email">Contact Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+      <label for="phone">Contact Phone</label>
+      <input type="text" id="phone" name="phone" placeholder="Enter phone number" required>
+
+      <button type="submit">Confirm Booking</button>
+    </form>
+    <p class="note">Tickets will be sent to your email & phone.</p>
+  </div>
+
+  <script>
+    function generatePassengers() {
+      let count = document.getElementById("passengers").value;
+      let container = document.getElementById("passengerDetails");
+      container.innerHTML = ""; // clear before regenerating
+
+      for (let i = 1; i <= count; i++) {
+        let div = document.createElement("div");
+        div.classList.add("passenger");
+        div.innerHTML = `
+          <h3>Passenger ${i}</h3>
+          <label for="name${i}">Full Name</label>
+          <input type="text" id="name${i}" name="name${i}" placeholder="Enter name" required>
+
+          <label for="age${i}">Age</label>
+          <input type="number" id="age${i}" name="age${i}" placeholder="Enter age" required>
+
+          <label for="gender${i}">Gender</label>
+          <select id="gender${i}" name="gender${i}" required>
+            <option value="">--Select--</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        `;
+        container.appendChild(div);
+      }
+    }
+  </script>
+</body>
+</html>

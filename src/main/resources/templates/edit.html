@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Bus Details</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      width: 400px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    button {
+      width: 48%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .save-btn {
+      background-color: #28a745;
+      color: white;
+    }
+    .cancel-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <h2>Edit Bus Details</h2>
+
+    <form action="/admin/updatebus" method="post">
+      <!-- hidden id -->
+      <input type="hidden" name="id" th:value="${bus.id}" />
+
+      <label for="busNumber">Price</label>
+      <input type="text" id="busNumber" name="price" th:value="${bus.price}" required>
+
+      <label for="busName">Bus Name</label>
+      <input type="text" id="busName" name="busName" th:value="${bus.busName}" required>
+
+      <label for="coach">Coach Type</label>
+      <select id="coach" name="coach">
+        <option value="AC" th:selected="${bus.coach == 'AC'}">AC</option>
+        <option value="Non-AC" th:selected="${bus.coach == 'Non-AC'}">Non-AC</option>
+      </select>
+
+      <label for="boarding">Boarding Point</label>
+      <input type="text" id="boarding" name="boardingPoint" th:value="${bus.boardingPoint}" required>
+
+      <label for="dropPoint">Drop Point</label>
+      <input type="text" id="dropPoint" name="dropPoint" th:value="${bus.dropPoint}" required>
+     <label for="date">Date</label>      
+      <input type="date" id="date" name="date" th:value="${bus.date}" required>
+
+
+      <label for="seats">Seats</label>
+      <input type="number" id="seats" name="seats" th:value="${bus.seats}" required>
+
+      <div class="btn-group">
+       <button type="submit" class="save-btn">Save</button> 
+      <button type="button" class="cancel-btn" >Cancel</button>
+      </div>
+    </form>
+
+  </div>
+</body>
+</html>

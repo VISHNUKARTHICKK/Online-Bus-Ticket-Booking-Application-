@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GoBus - Welcome</title>
+    
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(78,84,200,0.15);
+            text-align: center;
+            min-width: 320px;
+        }
+        h1 {
+            margin-bottom: 24px;
+            color: #4e54c8;
+            font-size: 2rem;
+        }
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .btn {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 8px;
+            background: #4e54c8;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(78,84,200,0.08);
+        }
+        .btn:hover {
+            background: #8f94fb;
+            transform: translateY(-2px) scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to GoBus</h1>
+        <div class="btn-group">
+           <a href="/login"> <button class="btn">Login</button> </a>
+           <a href="/register"><button class="btn" >Register</button></a>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Your OTP Code</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f6f6f6; margin: 0; padding: 0; }
+        .container { background: #fff; max-width: 500px; margin: 40px auto; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);}
+        .otp { font-size: 2em; color: #2d8cf0; letter-spacing: 4px; margin: 20px 0; }
+        .footer { color: #888; font-size: 0.9em; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Hello, <span th:text="${username}"> </span></h2>
+        <p>We received a request to verify your email address. Please use the following OTP to complete your verification:</p>
+        <div class="otp" align="center"><h1 th:text=${otp}></h1></div>
+        <p>This OTP is valid for 10 minutes. If you did not request this, please ignore this email.</p>
+        <div class="footer">
+            <p>Thank you,<br>The GoBus Team</p>
+        </div>
+    </div>
+</body>
+</html>

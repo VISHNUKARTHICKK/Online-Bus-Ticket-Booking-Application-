@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Bus Ticket</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+    }
+    .ticket-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px dashed #007bff;
+      width: 500px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+      color: #007bff;
+    }
+    p {
+      margin: 5px 0;
+      color: #333;
+    }
+    .details {
+      margin-top: 15px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #555;
+    }
+    .details ul {
+    margin: 10px 0;
+    padding: 0 20px;
+}
+
+.details li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+.details li:last-child {
+    border-bottom: none;
+}
+  </style>
+</head>
+<body>
+  <div class="ticket-container">
+    <h2>Bus Ticket Confirmation</h2>
+
+    <div class="details">
+     <p><strong>Passengers:</strong></p>
+    <ul style="list-style: none; padding-left: 0;">
+        <li th:each="passenger : ${booking.passengerList}">
+            <span th:text="${passenger.name} + ' (Age: ' + ${passenger.age} + ', Gender: ' + ${passenger.gender} + ')'"></span>
+        </li>
+    </ul>
+      <p><strong>Bus Name:</strong> <span th:text="${booking.busName}"></span></p>
+      <p><strong>From:</strong> <span th:text="${booking.boardingPoint}"></span></p>
+      <p><strong>To:</strong> <span th:text="${booking.dropPoint}"></span></p>
+      <p><strong>Date:</strong> <span th:text="${booking.date}"></span></p>
+      <p><strong>Email:</strong> <span th:text="${booking.email}"></span></p>
+    </div>
+
+    <div class="footer">
+      <p>Thank you for booking with GoBus! Have a safe journey.</p>
+    </div>
+  </div>
+</body>
+</html>

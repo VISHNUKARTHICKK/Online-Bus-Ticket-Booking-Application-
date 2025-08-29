@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GoBus OTP Verification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: #f6f6f6;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .otp-container {
+            background: #fff;
+            max-width: 400px;
+            margin: 60px auto;
+            padding: 32px 28px 24px 28px;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(44, 130, 201, 0.08);
+            text-align: center;
+        }
+        .otp-container h2 {
+            color: #2d8cf0;
+            margin-bottom: 18px;
+        }
+        .otp-container p {
+            color: #444;
+            margin-bottom: 24px;
+        }
+        .otp-input {
+            letter-spacing: 10px;
+            font-size: 2em;
+            padding: 10px 0;
+            width: 180px;
+            border: 1px solid #d0d0d0;
+            border-radius: 6px;
+            text-align: center;
+            outline: none;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            transition: border-color 0.2s;
+        }
+        .otp-input:focus {
+            border-color: #2d8cf0;
+        }
+        .verify-btn {
+            background: #2d8cf0;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 32px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .verify-btn:hover {
+            background: #1766a6;
+        }
+        .resend-link {
+            display: block;
+            margin-top: 18px;
+            color: #2d8cf0;
+            text-decoration: none;
+            font-size: 0.95em;
+        }
+        .resend-link:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 500px) {
+            .otp-container {
+                max-width: 95vw;
+                padding: 18px 6vw 18px 6vw;
+            }
+            .otp-input {
+                width: 90vw;
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="message" id="messageDiv" th:if="${session.pass!=null || session.fail!=null}">
+                <h2 style="color: green;" th:text="${session.pass}"></h2>
+                <h2 style="color: red;" th:text="${session.fail}"></h2>
+                <span th:text="${@messageRemover.remove()}"></span>
+</div>
+    <div class="otp-container">
+        <h2>OTP Verification</h2>
+        <p>Please enter the OTP sent to your email to verify your GoBus account.</p>
+        <form method="post" action="/otp">
+            <input type="text" name="otp" maxlength="6" class="otp-input" required autocomplete="off" pattern="\d{6}">
+            <br>
+            <button type="submit" class="verify-btn">Verify</button>
+        </form>
+        <a href="/otp" class="resend-link">Resend OTP</a>
+    </div>
+</body>
+</html>

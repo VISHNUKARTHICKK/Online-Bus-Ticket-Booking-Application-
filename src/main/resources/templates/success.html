@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Success</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1e90ff, #4facfe);
+            color: #fff;
+            text-align: center;
+            padding: 40px;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        h2 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        .details {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .details h3 {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+        li {
+            margin: 6px 0;
+        }
+        .btn {
+            margin-top: 20px;
+            display: inline-block;
+            background: #fff;
+            color: #1e90ff;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>🎉 Booking Confirmed!</h2>
+    <p>Your ticket has been booked successfully.</p>
+
+    <div class="details">
+        <h3>Bus Details</h3>
+        <p><strong>Bus:</strong> [[${booking.busName}]]</p>
+        <p><strong>Route:</strong> [[${booking.boardingPoint}]] → [[${booking.dropPoint}]]</p>
+        <p><strong>Date:</strong> [[${booking.date}]]</p>
+    </div>
+
+    <div class="details">
+        <h3>Booking Details</h3>
+        <p><strong>Email:</strong> [[${booking.email}]]</p>
+        <p><strong>Phone:</strong> [[${booking.phone}]]</p>
+        <p><strong>Total Passengers:</strong> [[${booking.passengers}]]</p>
+
+        <h3>Passenger List</h3>
+        <ul>
+            <li th:each="p : ${booking.passengerList}">
+                👤 [[${p.name}]]
+            </li>
+        </ul>
+    </div>
+
+    <a href="/user/home" class="btn">Book Another Ticket</a>
+</div>
+</body>
+</html>

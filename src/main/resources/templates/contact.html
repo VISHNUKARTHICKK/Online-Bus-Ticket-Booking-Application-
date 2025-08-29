@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GoBus - Contact Us</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f7f7f7;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: #fff;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .navbar .logo img {
+            height: 80px;
+            width: 120px;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        .navbar .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .navbar .nav-links a:hover {
+            background: #4e54c8;
+        }
+        .contact-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .contact-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .contact-header h1 {
+            color: #4e54c8;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .contact-form {
+            display: grid;
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        .form-group input, 
+        .form-group textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        .submit-btn {
+            background: #4e54c8;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .submit-btn:hover {
+            background: #3a3f9e;
+        }
+        .contact-info {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+        .contact-info-item {
+            padding: 20px;
+        }
+        .contact-info-item h3 {
+            color: #4e54c8;
+            margin-bottom: 10px;
+        }
+        .contact-info-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+            .contact-container {
+                margin: 20px;
+            }
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/img/gobus.png" alt="GoBus Logo">
+        </div>
+        <div class="nav-links">
+            <a href="/user/home">Home</a>
+            <a href="/user/bookings">Bookings</a>
+            <a href="/user/contact">Contact</a>
+            <form action="/logout" method="post" style="display:inline;">
+                <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 8px 18px;">Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="contact-container">
+        <div class="contact-header">
+            <h1>Contact Us</h1>
+            <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+        </div>
+
+        <form class="contact-form" action="/contact/submit" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+            <div class="contact-info-item">
+                <h3>Address</h3>
+                <p>123 Bus Terminal Road<br>Chennai, Tamil Nadu 600001</p>
+            </div>
+            <div class="contact-info-item">
+                <h3>Phone</h3>
+                <p>+91 123 456 7890<br>+91 987 654 3210</p>
+            </div>
+            <div class="contact-info-item">
+                <h3>Email</h3>
+                <p>info@gobus.com<br>support@gobus.com</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
