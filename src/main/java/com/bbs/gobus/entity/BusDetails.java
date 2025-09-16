@@ -26,6 +26,8 @@ public class BusDetails{
     private Long price;
     @Column(nullable = false)
     private String coach;
+    @Column(nullable = false)
+    private String type;
      @Column(nullable = false)
     private String busName;
     @Column(nullable = false)

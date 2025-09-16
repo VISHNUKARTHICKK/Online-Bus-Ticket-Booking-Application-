@@ -3,6 +3,7 @@ package com.bbs.gobus.service.Implementation;
 import java.util.List;
 import java.util.Random;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -85,7 +86,7 @@ public class AuthServiceImple implements AuthService {
          User user = new User(dto);
          userRepository.save(user);
         session.setAttribute("pass", "Account Create Success");
-         return "main.html";
+         return "login.html";
     }
     
     else{
@@ -223,6 +224,12 @@ public class AuthServiceImple implements AuthService {
     public void bookingdetails(ModelMap map) {
         List<Booking> booking = bookingRepository.findAll();
          map.put("bookings", booking);
+    }
+
+    @Override
+    public Booking getBookingById(Long id) {
+      Optional<Booking> booking = bookingRepository.findById(id);
+        return booking.orElse(null);
     }
 }
 

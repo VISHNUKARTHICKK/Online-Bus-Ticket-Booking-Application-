@@ -81,6 +81,9 @@
         <option value="Non-AC" th:selected="${bus.coach == 'Non-AC'}">Non-AC</option>
       </select>
 
+      <label for="boarding">Type</label>
+      <input type="text" id="boarding" name="type" th:value="${bus.type}" required>
+
       <label for="boarding">Boarding Point</label>
       <input type="text" id="boarding" name="boardingPoint" th:value="${bus.boardingPoint}" required>
 

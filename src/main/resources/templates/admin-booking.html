@@ -157,9 +157,7 @@
             padding: 40px;
             color: #666;
         }
-        .container{
-            background-image: url('/img/adminimg.png');
-        }
+        
 
         @media (max-width: 768px) {
             .container {
@@ -189,7 +187,7 @@
 
     <div class="container" id="bookingsContainer">
         <div class="bookings-header">
-            <h1>My Bookings</h1>
+            <h1>Bookings</h1>
         </div>
 
         <div class="booking-cards" th:if="${not #lists.isEmpty(bookings)}">
@@ -232,7 +230,7 @@
                 </div>
 
                 <div class="booking-actions">
-                    <a href="#" class="btn btn-primary">View Ticket</a>
+                    <a th:href="@{'/admin/ticket/' + ${booking.id}}" class="btn btn-primary">View Ticket</a>
                     <!-- <button class="btn btn-secondary" onclick="cancelBooking(${booking.id})">Cancel Booking</button> -->
                 </div>
             </div>

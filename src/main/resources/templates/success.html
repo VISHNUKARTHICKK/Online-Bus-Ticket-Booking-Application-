@@ -84,7 +84,8 @@
         <h3>Passenger List</h3>
         <ul>
             <li th:each="p : ${booking.passengerList}">
-                👤 [[${p.name}]]
+                👤 [[${p.name}]] -Seat No<span th:text="${p.seatNumber}"></span> 
+
             </li>
         </ul>
     </div>

@@ -52,7 +52,7 @@ EmailService emailService;
 UserRepository userRepository;
 
    @GetMapping("/book/{id}")
-public String showBookingForm(@PathVariable Long id, ModelMap map, HttpSession session) {
+public String showBookingForm(@PathVariable Long id , ModelMap map, HttpSession session) {
     BusDetails bus = busRepository.findById(id).orElseThrow(() -> new RuntimeException("Bus not found"));
 
    User user = authService.getloggedInUser(session);
@@ -75,73 +75,88 @@ public String showBookingForm(@PathVariable Long id, ModelMap map, HttpSession s
     booking.setDropPoint(bus.getDropPoint());
     booking.setDate(bus.getDate());
 
+    booking.setBus(bus); // set the bus details
+
+List<Integer> bookedSeats = passengerRepository.findSeatNumbersByBusName(bus.getBusName());
+
+
+    
 
     map.addAttribute("bus", bus);
     map.addAttribute("booking", booking);
     map.addAttribute("user", userid); // pass user to the view
+    map.addAttribute("bookedSeats", bookedSeats);
     
-    System.out.println("User in booking form: " + userid);
+    System.out.println("User in booking form: " + bookedSeats);
 
-    return "traveller-details.html";  // bookingForm.html
+
+    if (bus.getType().equals("Sleeper")) {
+         return "sleeper-details.html";
+
+    }
+    return "traveller-details.html"; 
+     // bookingForm.html
 }
  @PostMapping("/confirmBooking")
-    public String confirmBooking(@RequestParam String email,
-                                 @RequestParam String phone,
-                                 @RequestParam int passengers,
-                                 @RequestParam String busName,
-                                 @RequestParam String boardingPoint,
-                                 @RequestParam String dropPoint,
-                                 @RequestParam String date,
-                                 @RequestParam List<String> passengerNames,
-                                 @RequestParam List<Integer> ages,
-                                 @RequestParam List<String> genders,
-                                 @RequestParam Long userid,
-                                 ModelMap model) throws Exception {
+public String confirmBooking(@RequestParam String email,
+                             @RequestParam String phone,
+                             @RequestParam String busName,
+                             @RequestParam String boardingPoint,
+                             @RequestParam String dropPoint,
+                             @RequestParam String date,
+                             @RequestParam List<String> passengerNames,
+                             @RequestParam List<Integer> ages,
+                             @RequestParam List<String> genders,
+                             @RequestParam List<Integer> seatNumbers,
+                             @RequestParam Long userid,
+                             @RequestParam Long busId,   // ✅ new
+                             ModelMap model) throws Exception {
 
-        // Create new booking
-        Booking booking = new Booking();
-        booking.setEmail(email);
-        booking.setPhone(phone);
-        booking.setPassengers(passengers);
-        booking.setBusName(busName);
-        booking.setBoardingPoint(boardingPoint);
-        booking.setDropPoint(dropPoint);
-        booking.setDate(date);
-        booking.setUser(userRepository.findById(userid).orElse(null));
-       
+    int passengers = passengerNames.size();
 
-        // Add passenger list
-        List<Passenger> passengerList = new ArrayList<>();
-        
+    // Create new booking
+    Booking booking = new Booking();
+    booking.setEmail(email);
+    booking.setPhone(phone);
+    booking.setPassengers(passengers);
+    booking.setBusName(busName);
+    booking.setBoardingPoint(boardingPoint);
+    booking.setDropPoint(dropPoint);
+    booking.setDate(date);
+    booking.setUser(userRepository.findById(userid).orElse(null));
+
+    // ✅ Fetch and set bus
+    BusDetails bus = busRepository.findById(busId)
+            .orElseThrow(() -> new RuntimeException("Bus not found"));
+    booking.setBus(bus);
+
+    // Add passenger list
+    List<Passenger> passengerList = new ArrayList<>();
     for (int i = 0; i < passengers; i++) {
         Passenger p = new Passenger();
         p.setName(passengerNames.get(i));
         p.setAge(ages.get(i));
         p.setGender(genders.get(i));
+        p.setSeatNumber(seatNumbers.get(i));
         p.setBooking(booking);  // link back
         passengerList.add(p);
     }
+    booking.setPassengerList(passengerList);
 
-        booking.setPassengerList(passengerList);
+    // Save booking (bus_id will now be saved ✅)
+    bookingRepository.save(booking);
 
-
-
-        // Save booking
-        bookingRepository.save(booking);
-// generate ticket PDF
+    // generate ticket PDF
     byte[] pdf = ticketService.generateTicketPdf(booking);
 
     // send email
     emailService.sendTicketEmail(booking, pdf);
 
-    // Long busseats = busDetails.getSeats();
-    // busseats=busseats-passengers;
-    
+    // Send data to success page
+    model.put("booking", booking);
 
-        // Send data to success page
-        model.put("booking", booking);
+    return "success.html";
+}
 
-        return "success.html";  // after booking success page
-    }
 
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import com.bbs.gobus.entity.Booking;
 import com.bbs.gobus.entity.BusDetails;
 import com.bbs.gobus.entity.User;
 import com.bbs.gobus.service.AuthService;
@@ -77,4 +77,10 @@ public class Admincontroller {
      authService.bookingdetails(map);
          return "admin-booking.html";
     }
+      @GetMapping("/ticket/{id}")
+public String viewTicket(@PathVariable Long id, ModelMap model) {
+    Booking booking = authService.getBookingById(id);
+    model.addAttribute("booking", booking);
+    return "booking"; // ticket.html
+}
 }

@@ -2,126 +2,134 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Seat Selection</title>
+  <title>Bus Ticket - GoBus</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6f8;
       margin: 0;
       padding: 20px;
-      text-align: center;
-    }
-    h2 { color: #2c3e50; margin-bottom: 30px; }
-    .bus {
-      display: inline-block;
-      background-color: #fff;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-    .row {
       display: flex;
       justify-content: center;
-      gap: 15px;
-      margin: 10px 0;
-    }
-    .seat {
-      width: 60px;
-      height: 100px;
-      border: 2px solid #28a745;
-      border-radius: 12px;
-      background-color: #fff;
-      color: #333;
-      font-weight: bold;
-      display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
     }
-    .seat:hover:not(.sold):not(.selected) {
-      background-color: #d4edda;
-      transform: scale(1.05);
+
+    .ticket {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 30px;
+      max-width: 600px;
+      width: 100%;
+      position: relative;
     }
-    .seat.sold {
-      background-color: #e0e0e0;
-      border-color: #999;
-      color: #777;
-      cursor: not-allowed;
+
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px dashed #ddd;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
     }
-    .seat.selected {
-      background-color: #a8e6a3;
-      border-color: #218838;
+
+    .ticket-header img {
+      height: 50px;
     }
-    button {
+
+    .ticket-header h2 {
+      margin: 0;
+      color: #4e54c8;
+    }
+
+    .ticket-info p {
+      margin: 8px 0;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .ticket-info strong {
+      color: #2c3e50;
+    }
+
+    .passenger-section {
       margin-top: 20px;
-      padding: 10px 20px;
-      border: none;
-      background: #28a745;
-      color: white;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
+      border-top: 2px dashed #ddd;
+      padding-top: 15px;
     }
-    button:hover { background: #218838; }
+
+    .passenger-section h3 {
+      margin: 0 0 10px 0;
+      color: #2c3e50;
+    }
+
+    .passenger-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .passenger-section li {
+      margin-bottom: 6px;
+      color: #555;
+    }
+
+    .ticket-footer {
+      margin-top: 20px;
+      border-top: 2px dashed #ddd;
+      padding-top: 15px;
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #4e54c8;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .download-btn:hover {
+      opacity: 0.9;
+    }
   </style>
 </head>
 <body>
-  <h2 th:text="${bus.boradingpoint} + ' ➔ ' + ${bus.droppoint}"></h2>
-
-  <div class="bus">
-    <!-- Example rows -->
-    <div class="row">
-      <div class="seat" data-seat="A1" data-price="599">₹599</div>
-      <div class="seat" data-seat="A2" data-price="899">₹899</div>
-      <div class="seat" data-seat="A3" data-price="549">₹549</div>
+  <div class="ticket">
+    <div class="ticket-header">
+      <img src="/img/gobus.png" alt="GoBus Logo">
+      <h2>e-Ticket</h2>
     </div>
 
-    <div class="row">
-      <div class="seat sold">Sold</div>
-      <div class="seat" data-seat="B2" data-price="899">₹899</div>
-      <div class="seat" data-seat="B3" data-price="549">₹549</div>
+    <div class="ticket-info">
+      <p><strong>Booking ID:</strong> <span th:text="${booking.id}"></span></p>
+      <p><strong>Bus:</strong> <span th:text="${booking.busName}"></span></p>
+      <p><strong>Date:</strong> <span th:text="${booking.date}"></span></p>
+      <p><strong>From:</strong> <span th:text="${booking.boardingPoint}"></span></p>
+      <p><strong>To:</strong> <span th:text="${booking.dropPoint}"></span></p>
+    </div>
+
+    <div class="passenger-section">
+      <h3>Passengers</h3>
+      <ul>
+        <li th:each="p : ${booking.passengerList}">
+          <span th:text="${p.name}"></span> 
+          (<span th:text="${p.age}"></span> yrs, 
+          <span th:text="${p.gender}"></span>) 
+          — Seat <span th:text="${p.seatNumber}"></span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="ticket-footer">
+      <p>Please carry a valid ID proof while boarding.</p>
+      <a href="/admin/home" class="download-btn">Back</a>
     </div>
   </div>
-
-  <!-- Hidden form -->
-  <form id="bookingForm" method="post" action="/user/confirmBooking">
-    <input type="hidden" name="busId" th:value="${bus.id}">
-    <input type="hidden" name="selectedSeats" id="selectedSeats">
-    <input type="hidden" name="totalFare" id="totalFare">
-    <button type="submit">Confirm Booking</button>
-  </form>
-
-  <script>
-    const seats = document.querySelectorAll('.seat:not(.sold)');
-    const selectedSeatsInput = document.getElementById('selectedSeats');
-    const totalFareInput = document.getElementById('totalFare');
-    const form = document.getElementById('bookingForm');
-
-    seats.forEach(seat => {
-      seat.addEventListener('click', () => {
-        seat.classList.toggle('selected');
-      });
-    });
-
-    form.addEventListener('submit', (e) => {
-      const selected = document.querySelectorAll('.seat.selected');
-      const seatNumbers = [];
-      let total = 0;
-
-      selected.forEach(seat => {
-        seatNumbers.push(seat.dataset.seat);
-        total += parseInt(seat.dataset.price);
-      });
-
-      selectedSeatsInput.value = seatNumbers.join(',');
-      totalFareInput.value = total;
-
-      if(seatNumbers.length === 0){
-        alert("Please select at least one seat!");
-        e.preventDefault();
-      }
-    });
-  </script>
 </body>
 </html>

@@ -143,6 +143,7 @@
         <thead>
             <tr>
                 <th>Coach</th>
+                <th>Type</th>
                 <th>BusName</th>
                 <th>Boarding Point</th>
                 <th>Drop Point</th>
@@ -156,6 +157,7 @@
 
             <tr th:each="bus : ${busList}">
                  <td th:text="${bus.coach}"></td>
+                 <td th:text="${bus.type}"></td>
                 <td th:text="${bus.busName}"></td>
                 <td th:text="${bus.boardingPoint}"></td>
                 <td th:text="${bus.dropPoint}"></td>

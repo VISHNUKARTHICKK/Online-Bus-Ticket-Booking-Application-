@@ -224,7 +224,8 @@
                 </div>
 
                 <div class="booking-actions">
-                    <a href="#" class="btn btn-primary">View Ticket</a>
+                    <a th:href="@{'/user/ticket/' + ${booking.id}}" class="btn btn-primary">View Ticket</a>
+
                     <!-- <button class="btn btn-secondary" onclick="cancelBooking(${booking.id})">Cancel Booking</button> -->
                 </div>
             </div>

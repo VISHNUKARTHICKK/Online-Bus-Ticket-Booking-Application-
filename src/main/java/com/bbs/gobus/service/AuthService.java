@@ -48,6 +48,8 @@ public interface AuthService {
 
     void bookingdetails(ModelMap map);
 
+    Booking getBookingById(Long id);
+
   
 
 

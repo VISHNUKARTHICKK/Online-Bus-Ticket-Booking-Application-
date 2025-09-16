@@ -284,6 +284,122 @@
   <footer class="footer">
   &copy; 2025 GoBus. All rights reserved.
 </footer>
-    
+    <!-- 🚍 GoBus Chatbot -->
+<div id="chatbot" class="chatbot">
+  <button id="openChat" class="chat-toggle">💬 Chat</button>
+
+  <div id="chatWindow" class="chat-window" style="display:none;">
+    <div class="chat-header">
+      <strong>GoBus Help</strong>
+      <button id="closeChat" class="close-btn">✕</button>
+    </div>
+
+    <div id="chatMessages" class="messages"></div>
+
+    <div class="chat-input">
+      <input id="chatInput" type="text" placeholder="Ask about booking, cancel, ticket..." />
+      <button id="chatSend">Send</button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Position & toggle */
+.chatbot { position: fixed; right: 18px; bottom: 18px; z-index: 9999; }
+.chat-toggle { background:#4e54c8;color:#fff;padding:14px 18px;border-radius:50px;border:none;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,0.2);}
+.chat-toggle:hover { opacity:0.9; }
+
+/* Chat window */
+.chat-window { width:320px; height:420px; background:#fff; border-radius:12px;
+               box-shadow:0 12px 30px rgba(0,0,0,0.25); display:flex; flex-direction:column; }
+.chat-header { padding:10px; background:#4e54c8; color:#fff; display:flex; justify-content:space-between; align-items:center; border-top-left-radius:12px;border-top-right-radius:12px;}
+.chat-header .close-btn { background:transparent; border:none; color:white; font-size:16px; cursor:pointer; }
+
+/* Messages */
+.messages { flex:1; padding:12px; overflow:auto; background:#f7f9fc;}
+.msg { margin-bottom:10px; }
+.msg.user { text-align:right;}
+.msg .bubble { display:inline-block; padding:8px 12px; border-radius:12px; max-width:85%; font-size:14px; line-height:1.4; }
+.msg.user .bubble { background:#007bff; color:white; border-bottom-right-radius:2px; }
+.msg.bot .bubble { background:#eef2ff; color:#111; border-bottom-left-radius:2px; }
+
+/* Input */
+.chat-input { display:flex; padding:8px; gap:8px; border-top:1px solid #eee; }
+.chat-input input { flex:1; padding:8px; border-radius:8px; border:1px solid #ddd; }
+.chat-input button { padding:8px 12px; border-radius:8px; border:none; background:#4e54c8; color:#fff; cursor:pointer; }
+.chat-input button:hover { opacity:0.9; }
+</style>
+
+<script>
+const openBtn = document.getElementById("openChat");
+const closeBtn = document.getElementById("closeChat");
+const chatWindow = document.getElementById("chatWindow");
+const sendBtn = document.getElementById("chatSend");
+const input = document.getElementById("chatInput");
+const messages = document.getElementById("chatMessages");
+
+openBtn.addEventListener("click", () => chatWindow.style.display = "flex");
+closeBtn.addEventListener("click", () => chatWindow.style.display = "none");
+
+function appendMessage(text, who="bot") {
+  const wrapper = document.createElement("div");
+  wrapper.className = "msg " + who;
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.innerText = text;
+  wrapper.appendChild(bubble);
+  messages.appendChild(wrapper);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+// FAQ rules
+function getBotReply(userMsg) {
+  const msg = userMsg.toLowerCase();
+
+  if (msg.includes("book")) {
+    return "🚌 To book a ticket: Home → Select Routes and Date → Select Bus → Choose Seats → Enter Passenger Details → Confirm & Pay.";
+  }
+  if (msg.includes("Hi") || msg.includes("hello")) {
+    return "👋 Hello! How can I assist you with your bus bookings today?";
+  }
+  if (msg.includes("cancel")) {
+    return "❌ To cancel: Go to My Bookings → Select Booking → Click Cancel Booking.";
+  }
+  if (msg.includes("ticket")) {
+    return "🎫 To view your ticket: Go to My Bookings → Click View Ticket.";
+  }
+  if (msg.includes("refund")) {
+    return "💰 Refunds are processed within 3–5 business days after successful cancellation.";
+  }
+  if (msg.includes("offer") || msg.includes("discount")) {
+    return "🎉 Current Offer: Get 10% off on your first booking! Use code: WELCOME10";
+  }
+  if (msg.includes("contact") || msg.includes("help")) {
+    return "☎️ For help: Visit Contact page or call our support number: 1800-123-456.";
+  }
+
+  return "🤖 Sorry, I can only help with booking, cancellation, tickets, refunds, offers, and support.";
+}
+
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+  appendMessage(text, "user");
+  input.value = "";
+
+  // bot response after a small delay
+  setTimeout(() => {
+    const reply = getBotReply(text);
+    appendMessage(reply, "bot");
+  }, 500);
+}
+
+sendBtn.addEventListener("click", sendMessage);
+input.addEventListener("keydown", e => { if (e.key==="Enter") sendMessage(); });
+
+// Greet when opened
+appendMessage("👋 Hi! I'm GoBus Assistant.", "bot");
+</script>
+
 </body>
 </html>

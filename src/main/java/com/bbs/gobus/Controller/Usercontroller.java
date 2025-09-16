@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -86,5 +87,13 @@ if (booking.isEmpty()) {
         return "user-bookings.html";
     }
      
+  @GetMapping("/ticket/{id}")
+public String viewTicket(@PathVariable Long id, ModelMap model) {
+    Booking booking = authservice.getBookingById(id);
+    model.addAttribute("booking", booking);
+    return "booking"; // ticket.html
+}
+
+
     
 }

@@ -16,13 +16,16 @@ public class Booking {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")   // foreign key in booking table
+    @JoinColumn(name = "user_id") // foreign key in booking table
     private User user;
-
 
     private String email;
     private String phone;
     private int passengers;
+
+      @ManyToOne
+@JoinColumn(name = "bus_id")
+private BusDetails bus;   // Relation to bus
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
     private List<Passenger> passengerList;
@@ -32,6 +35,5 @@ public class Booking {
     private String dropPoint;
     private String busName;
     private String date;
-   
-}
 
+}
